@@ -40,13 +40,13 @@ import api from "@/lib/api";
 const agentSchema = z.object({
   name: z.string().min(1, "Название обязательно"),
   description: z.string().optional(),
-  voiceName: z.string().default("ru-RU-Wavenet-A"),
-  speakingRate: z.number().min(0.5).max(2).default(1.0),
-  pitch: z.number().min(-20).max(20).default(0),
-  model: z.string().default("gemini-1.5-pro"),
+  voiceName: z.string().optional().default("ru-RU-Wavenet-A"),
+  speakingRate: z.number().min(0.5).max(2).optional().default(1.0),
+  pitch: z.number().min(-20).max(20).optional().default(0),
+  model: z.string().optional().default("gemini-1.5-pro"),
   systemPrompt: z.string().min(1, "Системный промпт обязателен"),
-  temperature: z.number().min(0).max(2).default(0.7),
-  maxTokens: z.number().min(100).max(8000).default(2000),
+  temperature: z.number().min(0).max(2).optional().default(0.7),
+  maxTokens: z.number().min(100).max(8000).optional().default(2000),
 });
 
 type AgentFormData = z.infer<typeof agentSchema>;
