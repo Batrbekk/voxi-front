@@ -9,7 +9,7 @@ import { AgentDialog } from "@/components/agents/agent-dialog";
 import { AgentsTable } from "@/components/agents/agents-table";
 
 export default function AgentsPage() {
-  const { agents, fetchAgents, loading } = useAgentStore();
+  const { agents, fetchAgents, isLoading } = useAgentStore();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function AgentsPage() {
           <CardTitle>Список агентов</CardTitle>
         </CardHeader>
         <CardContent>
-          {loading ? (
+          {isLoading ? (
             <div className="text-center py-8">Загрузка...</div>
           ) : agents.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
