@@ -41,7 +41,7 @@ const leadSchema = z.object({
   phone: z.string().min(10, "Введите корректный номер телефона"),
   email: z.string().email("Неверный формат email").optional().or(z.literal("")),
   status: z.nativeEnum(LeadStatus).default(LeadStatus.NEW),
-  notes: z.string().optional(),
+  notes: z.array(z.string()).optional().default([]),
   metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
@@ -74,7 +74,7 @@ export function LeadDialog({ open, onOpenChange, lead }: LeadDialogProps) {
       phone: "",
       email: "",
       status: LeadStatus.NEW,
-      notes: "",
+      notes: [],
       metadata: {},
     },
   });
@@ -87,7 +87,7 @@ export function LeadDialog({ open, onOpenChange, lead }: LeadDialogProps) {
         phone: lead.phone,
         email: lead.email || "",
         status: lead.status,
-        notes: lead.notes || "",
+        notes: lead.notes || [],
         metadata: lead.metadata || {},
       });
     } else {
@@ -97,7 +97,7 @@ export function LeadDialog({ open, onOpenChange, lead }: LeadDialogProps) {
         phone: "",
         email: "",
         status: LeadStatus.NEW,
-        notes: "",
+        notes: [],
         metadata: {},
       });
     }
