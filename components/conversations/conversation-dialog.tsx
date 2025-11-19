@@ -127,45 +127,20 @@ export function ConversationDialog({
           </div>
 
           {/* Transcript */}
-          {conversation.transcript && conversation.transcript.length > 0 && (
+          {conversation.transcript && (
             <div className="border rounded-lg p-4">
               <p className="text-sm font-medium mb-3">Транскрипт разговора</p>
-              <div className="space-y-3 max-h-[300px] overflow-y-auto">
-                {conversation.transcript.map((message, index) => (
-                  <div
-                    key={index}
-                    className={`flex gap-3 ${
-                      message.role === "user" ? "justify-start" : "justify-end"
-                    }`}
-                  >
-                    <div
-                      className={`max-w-[80%] rounded-lg p-3 ${
-                        message.role === "user"
-                          ? "bg-muted"
-                          : "bg-primary text-primary-foreground"
-                      }`}
-                    >
-                      <p className="text-xs font-medium mb-1">
-                        {message.role === "user" ? "Клиент" : "AI Агент"}
-                      </p>
-                      <p className="text-sm">{message.content}</p>
-                      {message.timestamp && (
-                        <p className="text-xs opacity-70 mt-1">
-                          {format(new Date(message.timestamp), "HH:mm:ss")}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
+              <div className="max-h-[300px] overflow-y-auto bg-muted rounded p-3">
+                <p className="text-sm whitespace-pre-wrap">{conversation.transcript}</p>
               </div>
             </div>
           )}
 
           {/* Recording */}
-          {conversation.recordingUrl && (
+          {conversation.audioUrl && (
             <div className="flex justify-center">
               <Button
-                onClick={() => playRecording(conversation.recordingUrl!)}
+                onClick={() => playRecording(conversation.audioUrl!)}
                 className="w-full"
               >
                 <Play className="mr-2 h-4 w-4" />
