@@ -98,7 +98,7 @@ export function ConversationDialog({
                 <p className="text-sm font-medium">AI Агент</p>
               </div>
               <p className="text-lg font-semibold">
-                {conversation.agentId?.name || "Не указан"}
+                {conversation.agentId || "Не указан"}
               </p>
             </div>
 
@@ -109,7 +109,7 @@ export function ConversationDialog({
               </div>
               {conversation.leadId ? (
                 <p className="text-lg font-semibold">
-                  {conversation.leadId.firstName} {conversation.leadId.lastName}
+                  {conversation.leadId}
                 </p>
               ) : (
                 <p className="text-lg text-muted-foreground">Не назначен</p>
