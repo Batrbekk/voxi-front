@@ -66,7 +66,7 @@ const statusLabels: Record<LeadStatus, string> = {
 export function LeadDialog({ open, onOpenChange, lead }: LeadDialogProps) {
   const { createLead, updateLead } = useLeadStore();
 
-  const form = useForm<LeadFormData>({
+  const form = useForm({
     resolver: zodResolver(leadSchema),
     defaultValues: {
       firstName: "",
