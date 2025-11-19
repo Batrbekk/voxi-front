@@ -23,11 +23,11 @@ interface ConversationsTableProps {
 }
 
 const statusLabels: Record<CallStatus, string> = {
-  [CallStatus.INITIATED]: "Инициирован",
   [CallStatus.RINGING]: "Звонит",
-  [CallStatus.IN_PROGRESS]: "В процессе",
+  [CallStatus.ONGOING]: "В процессе",
   [CallStatus.COMPLETED]: "Завершен",
   [CallStatus.FAILED]: "Ошибка",
+  [CallStatus.MISSED]: "Пропущен",
   [CallStatus.NO_ANSWER]: "Нет ответа",
   [CallStatus.BUSY]: "Занято",
 };
@@ -36,11 +36,11 @@ const statusVariants: Record<
   CallStatus,
   "default" | "secondary" | "destructive" | "outline"
 > = {
-  [CallStatus.INITIATED]: "secondary",
   [CallStatus.RINGING]: "outline",
-  [CallStatus.IN_PROGRESS]: "default",
+  [CallStatus.ONGOING]: "default",
   [CallStatus.COMPLETED]: "default",
   [CallStatus.FAILED]: "destructive",
+  [CallStatus.MISSED]: "secondary",
   [CallStatus.NO_ANSWER]: "secondary",
   [CallStatus.BUSY]: "secondary",
 };
