@@ -64,7 +64,7 @@ export function ConversationDialog({
         <DialogHeader>
           <DialogTitle>Детали разговора</DialogTitle>
           <DialogDescription>
-            {format(new Date(conversation.startTime), "dd MMMM yyyy, HH:mm", {
+            {format(new Date(conversation.startedAt), "dd MMMM yyyy, HH:mm", {
               locale: ru,
             })}
           </DialogDescription>
