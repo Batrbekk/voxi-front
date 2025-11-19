@@ -88,7 +88,7 @@ export function LeadDialog({ open, onOpenChange, lead }: LeadDialogProps) {
         email: lead.email || "",
         status: lead.status,
         notes: lead.notes || [],
-        metadata: lead.metadata || {},
+        metadata: lead.customFields || {},
       });
     } else {
       form.reset({
