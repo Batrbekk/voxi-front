@@ -125,7 +125,7 @@ export function LeadsTable({ leads }: LeadsTableProps) {
               </TableCell>
               <TableCell>
                 <Select
-                  value={lead.assignedAgentId || "unassigned"}
+                  value={lead.assignedTo || "unassigned"}
                   onValueChange={(value) =>
                     value !== "unassigned" && handleAssignAgent(lead._id, value)
                   }
