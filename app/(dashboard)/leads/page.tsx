@@ -90,8 +90,10 @@ export default function LeadsPage() {
                 <SelectItem value={LeadStatus.QUALIFIED}>
                   Квалифицирован
                 </SelectItem>
-                <SelectItem value={LeadStatus.CONVERTED}>Конвертирован</SelectItem>
-                <SelectItem value={LeadStatus.LOST}>Потерян</SelectItem>
+                <SelectItem value={LeadStatus.PROPOSAL}>Предложение</SelectItem>
+                <SelectItem value={LeadStatus.NEGOTIATION}>Переговоры</SelectItem>
+                <SelectItem value={LeadStatus.CLOSED_WON}>Сделка закрыта</SelectItem>
+                <SelectItem value={LeadStatus.CLOSED_LOST}>Потерян</SelectItem>
               </SelectContent>
             </Select>
             <Button onClick={handleSearch}>Поиск</Button>
