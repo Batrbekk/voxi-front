@@ -1,0 +1,195 @@
+"use client";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Conversation, CallStatus } from "@/types";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
+import { Play, Phone, Clock, User, Bot } from "lucide-react";
+import { useConversationStore } from "@/store/conversation";
+
+interface ConversationDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  conversation: Conversation;
+}
+
+const statusLabels: Record<CallStatus, string> = {
+  [CallStatus.INITIATED]: "Инициирован",
+  [CallStatus.RINGING]: "Звонит",
+  [CallStatus.IN_PROGRESS]: "В процессе",
+  [CallStatus.COMPLETED]: "Завершен",
+  [CallStatus.FAILED]: "Ошибка",
+  [CallStatus.NO_ANSWER]: "Нет ответа",
+  [CallStatus.BUSY]: "Занято",
+};
+
+const statusVariants: Record<
+  CallStatus,
+  "default" | "secondary" | "destructive" | "outline"
+> = {
+  [CallStatus.INITIATED]: "secondary",
+  [CallStatus.RINGING]: "outline",
+  [CallStatus.IN_PROGRESS]: "default",
+  [CallStatus.COMPLETED]: "default",
+  [CallStatus.FAILED]: "destructive",
+  [CallStatus.NO_ANSWER]: "secondary",
+  [CallStatus.BUSY]: "secondary",
+};
+
+export function ConversationDialog({
+  open,
+  onOpenChange,
+  conversation,
+}: ConversationDialogProps) {
+  const { playRecording } = useConversationStore();
+
+  const formatDuration = (seconds?: number) => {
+    if (!seconds) return "0:00";
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Детали разговора</DialogTitle>
+          <DialogDescription>
+            {format(new Date(conversation.startTime), "dd MMMM yyyy, HH:mm", {
+              locale: ru,
+            })}
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-6">
+          {/* Status and Duration */}
+          <div className="flex items-center gap-4">
+            <div>
+              <p className="text-sm text-muted-foreground mb-1">Статус</p>
+              <Badge variant={statusVariants[conversation.status]}>
+                {statusLabels[conversation.status]}
+              </Badge>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground mb-1">Длительность</p>
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-muted-foreground" />
+                <span className="font-medium">
+                  {formatDuration(conversation.duration)}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Agent and Lead Info */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="border rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Bot className="h-4 w-4 text-muted-foreground" />
+                <p className="text-sm font-medium">AI Агент</p>
+              </div>
+              <p className="text-lg font-semibold">
+                {conversation.agentId?.name || "Не указан"}
+              </p>
+            </div>
+
+            <div className="border rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <User className="h-4 w-4 text-muted-foreground" />
+                <p className="text-sm font-medium">Лид</p>
+              </div>
+              {conversation.leadId ? (
+                <p className="text-lg font-semibold">
+                  {conversation.leadId.firstName} {conversation.leadId.lastName}
+                </p>
+              ) : (
+                <p className="text-lg text-muted-foreground">Не назначен</p>
+              )}
+            </div>
+          </div>
+
+          {/* Phone Number */}
+          <div className="border rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Phone className="h-4 w-4 text-muted-foreground" />
+              <p className="text-sm font-medium">Номер телефона</p>
+            </div>
+            <p className="text-lg font-semibold">{conversation.phoneNumber}</p>
+          </div>
+
+          {/* Transcript */}
+          {conversation.transcript && conversation.transcript.length > 0 && (
+            <div className="border rounded-lg p-4">
+              <p className="text-sm font-medium mb-3">Транскрипт разговора</p>
+              <div className="space-y-3 max-h-[300px] overflow-y-auto">
+                {conversation.transcript.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`flex gap-3 ${
+                      message.role === "user" ? "justify-start" : "justify-end"
+                    }`}
+                  >
+                    <div
+                      className={`max-w-[80%] rounded-lg p-3 ${
+                        message.role === "user"
+                          ? "bg-muted"
+                          : "bg-primary text-primary-foreground"
+                      }`}
+                    >
+                      <p className="text-xs font-medium mb-1">
+                        {message.role === "user" ? "Клиент" : "AI Агент"}
+                      </p>
+                      <p className="text-sm">{message.content}</p>
+                      {message.timestamp && (
+                        <p className="text-xs opacity-70 mt-1">
+                          {format(new Date(message.timestamp), "HH:mm:ss")}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Recording */}
+          {conversation.recordingUrl && (
+            <div className="flex justify-center">
+              <Button
+                onClick={() => playRecording(conversation.recordingUrl!)}
+                className="w-full"
+              >
+                <Play className="mr-2 h-4 w-4" />
+                Прослушать запись
+              </Button>
+            </div>
+          )}
+
+          {/* Metadata */}
+          {conversation.metadata && Object.keys(conversation.metadata).length > 0 && (
+            <div className="border rounded-lg p-4">
+              <p className="text-sm font-medium mb-3">Дополнительная информация</p>
+              <div className="space-y-2">
+                {Object.entries(conversation.metadata).map(([key, value]) => (
+                  <div key={key} className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{key}:</span>
+                    <span className="font-medium">{String(value)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
