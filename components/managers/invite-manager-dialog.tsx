@@ -51,7 +51,7 @@ export function InviteManagerDialog({
 }: InviteManagerDialogProps) {
   const { inviteManager } = useManagerStore();
 
-  const form = useForm<InviteManagerFormData>({
+  const form = useForm({
     resolver: zodResolver(inviteManagerSchema),
     defaultValues: {
       email: "",
