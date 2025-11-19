@@ -64,11 +64,11 @@ export default function ConversationsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Все статусы</SelectItem>
-                <SelectItem value={CallStatus.INITIATED}>Инициирован</SelectItem>
                 <SelectItem value={CallStatus.RINGING}>Звонит</SelectItem>
-                <SelectItem value={CallStatus.IN_PROGRESS}>В процессе</SelectItem>
+                <SelectItem value={CallStatus.ONGOING}>В процессе</SelectItem>
                 <SelectItem value={CallStatus.COMPLETED}>Завершен</SelectItem>
                 <SelectItem value={CallStatus.FAILED}>Ошибка</SelectItem>
+                <SelectItem value={CallStatus.MISSED}>Пропущен</SelectItem>
                 <SelectItem value={CallStatus.NO_ANSWER}>Нет ответа</SelectItem>
                 <SelectItem value={CallStatus.BUSY}>Занято</SelectItem>
               </SelectContent>
