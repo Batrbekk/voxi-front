@@ -108,11 +108,11 @@ export function ConversationsTable({ conversations }: ConversationsTableProps) {
                   >
                     <Eye className="h-4 w-4" />
                   </Button>
-                  {conversation.recordingUrl && (
+                  {conversation.audioUrl && (
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => playRecording(conversation.recordingUrl!)}
+                      onClick={() => playRecording(conversation.audioUrl!)}
                       title="Прослушать запись"
                     >
                       <Play className="h-4 w-4" />
