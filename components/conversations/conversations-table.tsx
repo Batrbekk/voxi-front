@@ -75,17 +75,17 @@ export function ConversationsTable({ conversations }: ConversationsTableProps) {
           {conversations.map((conversation) => (
             <TableRow key={conversation._id}>
               <TableCell>
-                {format(new Date(conversation.startTime), "dd MMM yyyy, HH:mm", {
+                {format(new Date(conversation.startedAt), "dd MMM yyyy, HH:mm", {
                   locale: ru,
                 })}
               </TableCell>
               <TableCell className="font-medium">
-                {conversation.agentId?.name || "-"}
+                {conversation.agentId || "-"}
               </TableCell>
               <TableCell>
                 {conversation.leadId ? (
                   <>
-                    {conversation.leadId.firstName} {conversation.leadId.lastName}
+                    {conversation.leadId}
                   </>
                 ) : (
                   "-"
