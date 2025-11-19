@@ -148,21 +148,6 @@ export function ConversationDialog({
               </Button>
             </div>
           )}
-
-          {/* Metadata */}
-          {conversation.metadata && Object.keys(conversation.metadata).length > 0 && (
-            <div className="border rounded-lg p-4">
-              <p className="text-sm font-medium mb-3">Дополнительная информация</p>
-              <div className="space-y-2">
-                {Object.entries(conversation.metadata).map(([key, value]) => (
-                  <div key={key} className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">{key}:</span>
-                    <span className="font-medium">{String(value)}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </DialogContent>
     </Dialog>
