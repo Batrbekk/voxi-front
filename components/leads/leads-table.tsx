@@ -43,8 +43,10 @@ const statusLabels: Record<LeadStatus, string> = {
   [LeadStatus.NEW]: "Новый",
   [LeadStatus.CONTACTED]: "Связались",
   [LeadStatus.QUALIFIED]: "Квалифицирован",
-  [LeadStatus.CONVERTED]: "Конвертирован",
-  [LeadStatus.LOST]: "Потерян",
+  [LeadStatus.PROPOSAL]: "Предложение",
+  [LeadStatus.NEGOTIATION]: "Переговоры",
+  [LeadStatus.CLOSED_WON]: "Сделка закрыта",
+  [LeadStatus.CLOSED_LOST]: "Потерян",
 };
 
 const statusVariants: Record<
@@ -54,8 +56,10 @@ const statusVariants: Record<
   [LeadStatus.NEW]: "default",
   [LeadStatus.CONTACTED]: "secondary",
   [LeadStatus.QUALIFIED]: "outline",
-  [LeadStatus.CONVERTED]: "default",
-  [LeadStatus.LOST]: "destructive",
+  [LeadStatus.PROPOSAL]: "secondary",
+  [LeadStatus.NEGOTIATION]: "secondary",
+  [LeadStatus.CLOSED_WON]: "default",
+  [LeadStatus.CLOSED_LOST]: "destructive",
 };
 
 export function LeadsTable({ leads }: LeadsTableProps) {
