@@ -31,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Agent } from "@/types";
+import { Agent, AgentLanguage, AgentGender } from "@/types";
 import { useAgentStore } from "@/store/agent";
 import { toast } from "sonner";
 import { Volume2, Loader2 } from "lucide-react";
@@ -139,11 +139,11 @@ export function AgentDialog({ open, onOpenChange, agent }: AgentDialogProps) {
   const onSubmit = async (data: AgentFormData) => {
     try {
       // Определяем пол на основе голоса
-      const getGenderFromVoice = (voiceName: string): string => {
+      const getGenderFromVoice = (voiceName: string): AgentGender => {
         if (voiceName === "ru-RU-Wavenet-A" || voiceName === "ru-RU-Wavenet-C") {
-          return "female";
+          return AgentGender.FEMALE;
         }
-        return "male";
+        return AgentGender.MALE;
       };
 
       const agentData = {
@@ -151,7 +151,7 @@ export function AgentDialog({ open, onOpenChange, agent }: AgentDialogProps) {
         description: data.description,
         voiceSettings: {
           voiceName: data.voiceName,
-          language: "ru-RU",
+          language: AgentLanguage.RU_RU,
           gender: getGenderFromVoice(data.voiceName),
           speakingRate: data.speakingRate,
           pitch: data.pitch,
