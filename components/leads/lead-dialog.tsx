@@ -42,7 +42,7 @@ const leadSchema = z.object({
   email: z.string().email("Неверный формат email").optional().or(z.literal("")),
   status: z.nativeEnum(LeadStatus).default(LeadStatus.NEW),
   notes: z.string().optional(),
-  metadata: z.record(z.string()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 type LeadFormData = z.infer<typeof leadSchema>;
