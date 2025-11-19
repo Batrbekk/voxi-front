@@ -57,8 +57,10 @@ const statusLabels: Record<LeadStatus, string> = {
   [LeadStatus.NEW]: "Новый",
   [LeadStatus.CONTACTED]: "Связались",
   [LeadStatus.QUALIFIED]: "Квалифицирован",
-  [LeadStatus.CONVERTED]: "Конвертирован",
-  [LeadStatus.LOST]: "Потерян",
+  [LeadStatus.PROPOSAL]: "Предложение",
+  [LeadStatus.NEGOTIATION]: "Переговоры",
+  [LeadStatus.CLOSED_WON]: "Сделка закрыта",
+  [LeadStatus.CLOSED_LOST]: "Потерян",
 };
 
 export function LeadDialog({ open, onOpenChange, lead }: LeadDialogProps) {
