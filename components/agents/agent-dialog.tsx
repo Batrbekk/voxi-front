@@ -61,7 +61,7 @@ export function AgentDialog({ open, onOpenChange, agent }: AgentDialogProps) {
   const { createAgent, updateAgent } = useAgentStore();
   const [isPlayingVoice, setIsPlayingVoice] = useState(false);
 
-  const form = useForm<AgentFormData>({
+  const form = useForm({
     resolver: zodResolver(agentSchema),
     defaultValues: {
       name: "",
