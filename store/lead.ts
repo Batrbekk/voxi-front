@@ -29,10 +29,10 @@ export const useLeadStore = create<LeadState>((set, get) => ({
       if (filters?.agentId) params.append("agentId", filters.agentId);
 
       const response = await api.get(`/leads?${params.toString()}`);
-      set({ leads: response.data || [] });
+      set({ leads: Array.isArray(response.data) ? response.data : [] });
     } catch (error) {
       console.error("Failed to fetch leads:", error);
-      throw error;
+      set({ leads: [] }); // Ensure leads is always an array even on error
     } finally {
       set({ loading: false });
     }

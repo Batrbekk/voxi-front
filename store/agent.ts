@@ -23,10 +23,10 @@ export const useAgentStore = create<AgentState>((set, get) => ({
     set({ isLoading: true });
     try {
       const response = await api.get('/agents');
-      set({ agents: response.data, isLoading: false });
+      set({ agents: Array.isArray(response.data) ? response.data : [], isLoading: false });
     } catch (error) {
-      set({ isLoading: false });
-      throw error;
+      console.error('Failed to fetch agents:', error);
+      set({ agents: [], isLoading: false }); // Ensure agents is always an array even on error
     }
   },
 

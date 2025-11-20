@@ -69,10 +69,19 @@ function getUserInitials(email: string, firstName?: string, lastName?: string): 
   if (firstName && lastName) {
     return `${firstName[0]}${lastName[0]}`.toUpperCase();
   }
-  if (firstName) {
+  if (firstName && firstName.length >= 2) {
     return firstName.substring(0, 2).toUpperCase();
   }
-  return email.substring(0, 2).toUpperCase();
+  if (firstName && firstName.length === 1) {
+    return firstName[0].toUpperCase();
+  }
+  if (email && email.length >= 2) {
+    return email.substring(0, 2).toUpperCase();
+  }
+  if (email && email.length === 1) {
+    return email[0].toUpperCase();
+  }
+  return "U";
 }
 
 function getRoleLabel(role: UserRole): string {

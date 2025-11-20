@@ -54,9 +54,14 @@ export const subscriptionApi = {
   /**
    * Get current company subscription
    */
-  async getCurrentSubscription(): Promise<Subscription> {
-    const response = await api.get('/subscription/current');
-    return response.data;
+  async getCurrentSubscription(): Promise<Subscription | null> {
+    try {
+      const response = await api.get('/subscription/current');
+      return response.data;
+    } catch (error) {
+      console.warn('Subscription endpoint not available:', error);
+      return null;
+    }
   },
 
   /**

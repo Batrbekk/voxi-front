@@ -64,7 +64,8 @@ export interface Agent {
   aiSettings: AISettings;
   workingHours?: WorkingHours;
   knowledgeBaseId?: string;
-  greetingMessage?: string;
+  inboundGreetingMessage?: string;
+  outboundGreetingMessage?: string;
   fallbackMessage?: string;
   endingMessage?: string;
   phoneNumbers: string[];

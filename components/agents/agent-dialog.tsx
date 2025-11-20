@@ -45,8 +45,10 @@ const agentSchema = z.object({
   pitch: z.number().min(-20).max(20).optional().default(0),
   model: z.string().optional().default("gemini-1.5-pro"),
   systemPrompt: z.string().min(1, "Системный промпт обязателен"),
-  temperature: z.number().min(0).max(2).optional().default(0.7),
+  temperature: z.number().min(0).max(1).optional().default(0.7),
   maxTokens: z.number().min(100).max(8000).optional().default(2000),
+  inboundGreetingMessage: z.string().optional(),
+  outboundGreetingMessage: z.string().optional(),
 });
 
 type AgentFormData = z.infer<typeof agentSchema>;
@@ -73,6 +75,8 @@ export function AgentDialog({ open, onOpenChange, agent }: AgentDialogProps) {
       systemPrompt: "",
       temperature: 0.7,
       maxTokens: 2000,
+      inboundGreetingMessage: "",
+      outboundGreetingMessage: "",
     },
   });
 
@@ -88,6 +92,8 @@ export function AgentDialog({ open, onOpenChange, agent }: AgentDialogProps) {
         systemPrompt: agent.aiSettings.systemPrompt,
         temperature: agent.aiSettings.temperature || 0.7,
         maxTokens: agent.aiSettings.maxTokens || 2000,
+        inboundGreetingMessage: agent.inboundGreetingMessage || "",
+        outboundGreetingMessage: agent.outboundGreetingMessage || "",
       });
     } else {
       form.reset();
@@ -164,6 +170,8 @@ export function AgentDialog({ open, onOpenChange, agent }: AgentDialogProps) {
           maxTokens: data.maxTokens,
           integratedWithAi: true,
         },
+        inboundGreetingMessage: data.inboundGreetingMessage,
+        outboundGreetingMessage: data.outboundGreetingMessage,
       };
 
       if (agent) {
@@ -404,7 +412,7 @@ export function AgentDialog({ open, onOpenChange, agent }: AgentDialogProps) {
                         type="number"
                         step="0.1"
                         min="0"
-                        max="2"
+                        max="1"
                         {...field}
                         onChange={(e) =>
                           field.onChange(parseFloat(e.target.value))
@@ -412,7 +420,7 @@ export function AgentDialog({ open, onOpenChange, agent }: AgentDialogProps) {
                       />
                     </FormControl>
                     <FormDescription>
-                      Креативность ответов (0-2)
+                      Креативность ответов (0-1)
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -439,6 +447,52 @@ export function AgentDialog({ open, onOpenChange, agent }: AgentDialogProps) {
                     </FormControl>
                     <FormDescription>
                       Максимальная длина ответа
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="space-y-4 border rounded-lg p-4">
+              <h3 className="font-semibold">Приветственные сообщения</h3>
+
+              <FormField
+                control={form.control}
+                name="inboundGreetingMessage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Входящие звонки</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Здравствуйте! Меня зовут..."
+                        {...field}
+                        rows={3}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Приветствие для входящих звонков
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="outboundGreetingMessage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Исходящие звонки</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Добрый день! Звоню из компании..."
+                        {...field}
+                        rows={3}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Приветствие для исходящих звонков
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
