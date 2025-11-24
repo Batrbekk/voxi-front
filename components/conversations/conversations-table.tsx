@@ -80,16 +80,18 @@ export function ConversationsTable({ conversations }: ConversationsTableProps) {
                 })}
               </TableCell>
               <TableCell className="font-medium">
-                {conversation.agentId || "-"}
+                {conversation.agentId
+                  ? typeof conversation.agentId === 'object'
+                    ? (conversation.agentId as any).name || (conversation.agentId as any)._id
+                    : conversation.agentId
+                  : "-"}
               </TableCell>
               <TableCell>
-                {conversation.leadId ? (
-                  <>
-                    {conversation.leadId}
-                  </>
-                ) : (
-                  "-"
-                )}
+                {conversation.leadId
+                  ? typeof conversation.leadId === 'object'
+                    ? (conversation.leadId as any).name || (conversation.leadId as any)._id
+                    : conversation.leadId
+                  : "-"}
               </TableCell>
               <TableCell>{conversation.phoneNumber}</TableCell>
               <TableCell>
