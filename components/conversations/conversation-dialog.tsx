@@ -98,7 +98,11 @@ export function ConversationDialog({
                 <p className="text-sm font-medium">AI Агент</p>
               </div>
               <p className="text-lg font-semibold">
-                {conversation.agentId || "Не указан"}
+                {conversation.agentId
+                  ? typeof conversation.agentId === 'object'
+                    ? (conversation.agentId as any).name || (conversation.agentId as any)._id
+                    : conversation.agentId
+                  : "Не указан"}
               </p>
             </div>
 
@@ -109,7 +113,9 @@ export function ConversationDialog({
               </div>
               {conversation.leadId ? (
                 <p className="text-lg font-semibold">
-                  {conversation.leadId}
+                  {typeof conversation.leadId === 'object'
+                    ? (conversation.leadId as any).name || (conversation.leadId as any)._id
+                    : conversation.leadId}
                 </p>
               ) : (
                 <p className="text-lg text-muted-foreground">Не назначен</p>
