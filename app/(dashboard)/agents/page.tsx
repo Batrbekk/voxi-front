@@ -1,16 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAgentStore } from "@/store/agent";
-import { AgentDialog } from "@/components/agents/agent-dialog";
 import { AgentsTable } from "@/components/agents/agents-table";
 
 export default function AgentsPage() {
   const { agents, fetchAgents, isLoading } = useAgentStore();
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchAgents().catch(console.error);
@@ -25,10 +24,12 @@ export default function AgentsPage() {
             Управление голосовыми ассистентами
           </p>
         </div>
-        <Button onClick={() => setDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Создать агента
-        </Button>
+        <Link href="/agents/new">
+          <Button>
+            <Plus className="mr-2 h-4 w-4" />
+            Создать агента
+          </Button>
+        </Link>
       </div>
 
       <Card>
@@ -47,8 +48,6 @@ export default function AgentsPage() {
           )}
         </CardContent>
       </Card>
-
-      <AgentDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
   );
 }

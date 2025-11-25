@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -11,10 +13,10 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Edit, Trash2, Play, Pause } from "lucide-react";
+import { Edit, Trash2, Play, Pause, AudioWaveform } from "lucide-react";
 import { Agent } from "@/types";
 import { useAgentStore } from "@/store/agent";
-import { AgentDialog } from "./agent-dialog";
+import { TestAgentDialog } from "./test-agent-dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,9 +33,10 @@ interface AgentsTableProps {
 }
 
 export function AgentsTable({ agents }: AgentsTableProps) {
+  const router = useRouter();
   const { deleteAgent, updateAgent } = useAgentStore();
-  const [editingAgent, setEditingAgent] = useState<Agent | null>(null);
   const [deletingAgent, setDeletingAgent] = useState<Agent | null>(null);
+  const [testingAgent, setTestingAgent] = useState<Agent | null>(null);
 
   const handleToggleActive = async (agent: Agent) => {
     try {
@@ -86,6 +89,14 @@ export function AgentsTable({ agents }: AgentsTableProps) {
                   <Button
                     variant="ghost"
                     size="icon"
+                    onClick={() => router.push(`/agents/${agent._id}/test`)}
+                    title="Тестировать агента"
+                  >
+                    <AudioWaveform className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     onClick={() => handleToggleActive(agent)}
                     title={agent.isActive ? "Деактивировать" : "Активировать"}
                   >
@@ -98,7 +109,8 @@ export function AgentsTable({ agents }: AgentsTableProps) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => setEditingAgent(agent)}
+                    onClick={() => router.push(`/agents/${agent._id}/edit`)}
+                    title="Редактировать агента"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -116,11 +128,11 @@ export function AgentsTable({ agents }: AgentsTableProps) {
         </TableBody>
       </Table>
 
-      {editingAgent && (
-        <AgentDialog
-          open={!!editingAgent}
-          onOpenChange={(open) => !open && setEditingAgent(null)}
-          agent={editingAgent}
+      {testingAgent && (
+        <TestAgentDialog
+          open={!!testingAgent}
+          onOpenChange={(open) => !open && setTestingAgent(null)}
+          agent={testingAgent}
         />
       )}
 
